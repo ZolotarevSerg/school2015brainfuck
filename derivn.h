@@ -66,31 +66,18 @@ const int max_son = 10;
 
 struct Node_t
 {
-    Node_t *son[max_son];
+    Node_t *son [max_son];
     Node_t *Parent;
     double value_;
     int    type_;
     
     Node_t (double value, int type):
-        //son    (new Node_t* [max_son]),
-        //son    (NULL),
+        son (),
         Parent (NULL),
         value_ (value),
         type_  (type)
     {
         printc (("Constr"), g)
-        txSleep (500);
-        
-        for (int i = 0; i < max_son; i++)
-        {
-            Line
-            
-            //son[i] = new Node_t 
-            
-            son[i] = NULL;
-            
-            Line
-        }
         
         printc (("uctor Node_t()\n"), g)
     }
@@ -99,66 +86,22 @@ struct Node_t
     {
         printc (("Destr"), r)
         
-        for (int i = 0; i < max_son; i++)
-        {
-            coutc ((i), A) Line
-            
-            txSleep (500);
-            
-            assert (son[i]);
-            
-            if (son[i] != NULL)
-            {
-                coutc ((i), W) Line
-                
-                txSleep (500);
-                
-                delete son[i];
-                
-                coutc ((i), t) Line
-                
-                txSleep (500);
-                
-                son[i] = NULL;
-                
-                coutc ((i), L) Line
-                
-                txSleep (500);
-            }
-            
-            coutc ((i), w) Line
-            
-            txSleep (500);
-            
-            i++;
-            
-            coutc ((i), l) Line
-            
-            txSleep (500);
-        }
-        txSleep (500);
-        /*if (Lson != NULL)
-        {
-            delete Lson;
-            Lson = NULL;
-        }
-
-        if (Rson != NULL)
-        {
-            delete Rson;
-            Rson = NULL;
-        }*/
-        
         printc (("uctor Node_t()\n"), r)
     }
     
-    /*void Set (double value, int type)
+    void Set (double value, int type)
     {
         value_ = value;
         type_  = type;
     }
     
-    void DoLson (double value = 0, int type = Number)
+    void Doson (int numbson, double value = 0, int type = Number)
+    {
+        son[numbson]        = new Node_t (value, type);
+        son[numbson].Parent = this;
+    }
+    
+    /*void DoLson (double value = 0, int type = Number)
     {
         Lson         = new Node_t (value, type);
         Lson->Parent = this;
@@ -168,6 +111,12 @@ struct Node_t
     {
         Rson         = new Node_t (value, type);
         Rson->Parent = this;
+    }*/
+    
+    void DoParent (double value = 0, int type = Number)
+    {
+        Parent       = new Node_t (value, type);
+        Parent->son = this;
     }
     
     void DoParentL (double value = 0, int type = Number)
