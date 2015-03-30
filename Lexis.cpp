@@ -88,8 +88,8 @@ bool ErrorLexis (char* str)
 
 
 #define DO( position, do_something )\
-        printdfl cur->Do##position##son (0, 0); printdfl\
-        printdfl cur = cur->position##son; printdfl\
+        printdfl cur->Doson (position, 0, 0); printdfl\
+        printdfl cur = cur->son[position]; printdfl\
         printdfl do_something; printdfl\
         printdfl cur = cur->Parent; printdfl
 
@@ -106,7 +106,7 @@ bool ErrorLexis (char* str)
     -Service           = 9
 */
 
-/*
+
 #define SR                cur->Set (Root, Root);
 #define SU                cur->Set (User_function, User_function);
 #define SN( number )      cur->Set (number, Number);
@@ -116,7 +116,7 @@ bool ErrorLexis (char* str)
 #define SS                cur->Set (Standart_function, Standart_function);
 #define SVI               cur->Set (Var_init, Var_init);
 
-void BuildTree (Node_t* n)
+void BuildTree (Node_t* n, Node_t* cur)
 {
     SR
     
@@ -124,11 +124,13 @@ void BuildTree (Node_t* n)
     DO (1, SS);
     DO (2, SU);
     DO (3, SM);
-}*/
+}
 
 int main()
 {
     printdfb
+    
+    txSleep (3000);
     
     char* StrProgram = new char [SizeOfProgram];
     
@@ -145,6 +147,13 @@ int main()
     Node_t n (0, 0);
     
     Node_t* cur = &n;
+    
+    BuildTree (
+    &n, 
+    cur);
+    
+    n.DumpPrefics();
+    
     /*
     SO (Multiply);
     

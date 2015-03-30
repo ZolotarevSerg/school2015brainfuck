@@ -97,148 +97,62 @@ struct Node_t
     
     void Doson (int numbson, double value = 0, int type = Number)
     {
-        son[numbson]        = new Node_t (value, type);
-        son[numbson].Parent = this;
+        son[numbson]         = new Node_t (value, type);
+        son[numbson]->Parent = this;
     }
     
-    /*void DoLson (double value = 0, int type = Number)
+    void DoParent (int numbson, double value = 0, int type = Number)
     {
-        Lson         = new Node_t (value, type);
-        Lson->Parent = this;
-    }
-    
-    void DoRson (double value = 0, int type = Number)
-    {
-        Rson         = new Node_t (value, type);
-        Rson->Parent = this;
-    }*/
-    
-    void DoParent (double value = 0, int type = Number)
-    {
-        Parent       = new Node_t (value, type);
-        Parent->son = this;
-    }
-    
-    void DoParentL (double value = 0, int type = Number)
-    {
-        Parent       = new Node_t (value, type);
-        Parent->Lson = this;
-    }
-    
-    void DoParentR (double value = 0, int type = Number)
-    {
-        Parent       = new Node_t (value, type);
-        Parent->Rson = this;
+        Parent               = new Node_t (value, type);
+        Parent->son[numbson] = this;
     }
     
     void DumpPrefics()
     {
-        if (type_ == Number)   printc (("%lg", value_), C)
-        if (type_ == Operator) printc (("<%d>" , (int) value_), C)
-        if (type_ == Variable) printc (("%c" , (int) value_), C)
+        printc (("\nDumpPrefics - Begin\n"), a)
         
-        if (Lson)
+        if (type_ == Root)              printc (("%d",  value_), C)
+        if (type_ == User_function)     printc (("%d", value_), C)
+        if (type_ == Number)            printc (("%lg", value_), C)
+        if (type_ == Variable)          printc (("%c" , (int) value_), C)
+        if (type_ == Operator)          printc (("<%d>" , (int) value_), C)
+        if (type_ == Logic)             printc (("%d",  value_), C)
+        if (type_ == Main)              printc (("%d",  value_), C)
+        if (type_ == Standart_function) printc (("%d",  value_), C)
+        if (type_ == Var_init)          printc (("%d",  value_), C)
+        if (type_ == Service)           printc (("%d",  value_), C)
+        
+        for (int i = 0; i < max_son; i++)
         {
-            printd (("("))
-            Lson->DumpPrefics();
-            printd ((")"))
+            if (son[i])
+            {
+                printd (("("))
+                son[i]->DumpPrefics();
+                printd ((")"))
+            }
         }
         
-        if (Rson)
-        {
-            printd (("("))
-            Rson->DumpPrefics();
-            printd ((")"))
-        }
-    }
-    
-    void DumpOldVeryOldButGoodYesGoodOldInfics()
-    {
-        if (Lson)
-        {
-            printd (("("))
-            Lson->DumpInfics();
-            printd ((")"))
-        }
-        
-        if (type_ == Number)   printd (("%lg", value_))
-        if (type_ == Operator) printd (("%c" , (int) value_))
-        if (type_ == Variable) printd (("%c" , (int) value_))
-        
-        if (Rson)
-        {
-            printd (("("))
-            Rson->DumpInfics();
-            printd ((")"))
-        }
-    }
-    
-    void DumpInfics()
-    {
-        if (Lson)
-        {
-            printc (("("), L)
-            Lson->DumpInfics();
-            printc ((")"), L)
-        }
-        
-        if (type_ == Number)   printc (("%lg", value_), C)
-        if (type_ == Operator) printc (("<%d>" , (int) value_), C)
-        if (type_ == Variable) printc (("%c" , (int) value_), C)
-        
-        if (Rson)
-        {
-            printc (("("), r)
-            Rson->DumpInfics();
-            printc ((")"), r)
-        }
-    }
-    
-    void DumpPostfics()
-    {
-        if (Lson)
-        {
-            printd (("("))
-            Lson->DumpPostfics();
-            printd ((")"))
-        }
-        
-        if (Rson)
-        {
-            printd (("("))
-            Rson->DumpPostfics();
-            printd ((")"))
-        }
-        
-        if (type_ == Number)   printc (("%lg", value_), C)
-        if (type_ == Operator) printc (("<%d>" , (int) value_), C)
-        if (type_ == Variable) printc (("%c" , (int) value_), C)
+        printc (("\nDumpPrefics - End\n"), a)
     }
     
     void Disattach()
     {
         if (!Parent) return;
         
-        if (Parent->Lson == this) Parent->Lson = NULL;
-                
-        if (Parent->Rson == this) Parent->Rson = NULL;
+        for (int i = 0; i < max_son; i++)
+        {
+            if (Parent->son[i] == this) Parent->son[i] = NULL;
+        }
         
         Parent = NULL;
     }
     
-    void AttachL (Node_t* n1)
+    void Attach (int numbson, Node_t* n1)
     {
         Parent = n1;
         
-        Parent->Lson = this;
+        Parent->son[numbson] = this;
     }
-    
-    void AttachR (Node_t* n1)
-    {
-        Parent = n1;
-        
-        Parent->Rson = this;
-    }*/
 };
 
 /*struct Derivative_t
